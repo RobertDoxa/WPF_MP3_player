@@ -9,7 +9,10 @@
 
   <ItemGroup>
     <None Remove="imgs\icon.png" />
-    <None Remove="imgs\playIcon.png" />
+    <None Remove="imgs\MPX_icon.png" />
+    <None Remove="imgs\pauseButtonIcon.png" />
+    <None Remove="imgs\playButtonIcon.png" />
+    <None Remove="imgs\stopButtonIcon.png" />
     <None Remove="imgs\x_icon.png" />
   </ItemGroup>
 
@@ -22,7 +25,16 @@
     <Resource Include="imgs\icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="imgs\playIcon.png">
+    <Resource Include="imgs\MPX_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="imgs\pauseButtonIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="imgs\playButtonIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="imgs\stopButtonIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="imgs\x_icon.png">

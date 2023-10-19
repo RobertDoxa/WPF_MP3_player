@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -35,9 +36,36 @@ namespace WpfApp1
         public static string mode { get; set; } = "Dark";
         public static string modeColor { get; set; } = "Orange";
 
+        private float _currentSliderPosition;
+
+        public float currentSliderPosition
+        {
+            get { return _currentSliderPosition; }
+            set
+            {
+                if (_currentSliderPosition != value)
+                {
+                    _currentSliderPosition = value;
+                    OnPropertyChanged("currentSliderPosition");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             MenuItem item = sender as MenuItem;
+            //this.Title = "File: " + item.Header;
+        }
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
             //this.Title = "File: " + item.Header;
         }
 
@@ -59,11 +87,15 @@ namespace WpfApp1
         void timer_Tick(object sender, EventArgs e)
         {
             if (mediaPlayer.Source != null)
+            {
+                float currentPositionInSeconds = mediaPlayer.Position.Minutes * 60 + mediaPlayer.Position.Seconds;
+                float fullDurationInSeconds = mediaPlayer.NaturalDuration.TimeSpan.Minutes * 60 + mediaPlayer.NaturalDuration.TimeSpan.Seconds;
+                _currentSliderPosition = (currentPositionInSeconds / fullDurationInSeconds) * 100;
                 lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
-            else
-                lblStatus.Content = "No file selected...";
+                progSlider.Value = _currentSliderPosition;
+            }
+            else lblStatus.Content = "No file selected...";
         }
-
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo

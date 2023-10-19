@@ -6,7 +6,7 @@
                  xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  Title="MPX"
-                 Icon="pack://application:,,,/imgs/x_icon.png"
+                 Icon="pack://application:,,,/imgs/MPX_icon.png"
                  Width="1000"
                  Height="500"
                  WindowStartupLocation="CenterScreen"
@@ -23,26 +23,22 @@
     </mah:MetroWindow.LeftWindowCommands>
 
     <Grid>
-        <Grid.Resources>
-            <ImageBrush x:Key="PlayButton" ImageSource="imgs/playIcon.png" Stretch="UniformToFill"/>
-        </Grid.Resources>
         <Menu HorizontalAlignment = "Left" VerticalAlignment = "Top" Width = "1000">
 
             <MenuItem Header = "_File" Cursor="Arrow" HorizontalAlignment="Left" ClipToBounds="True">
                 <MenuItem Header = "_Open..." HorizontalAlignment = "Left" Width = "140" Click = "OpenFile_Click"/>
                 <Separator HorizontalAlignment = "Left" Width = "140" />
                 <MenuItem Header = "Settings" HorizontalAlignment = "Left" Width = "140" Click = "Settings_Click"/>
-                <MenuItem Header = "Exit" HorizontalAlignment = "Left" Width = "140" Click = "MenuItem_Click"/>
+                <MenuItem Header = "Exit" HorizontalAlignment = "Left" Width = "140" Click = "Exit_Click"/>
             </MenuItem>
 
             <MenuItem Header = "_Playback" Cursor="Arrow" ClipToBounds="True">
-                <MenuItem Header = "Item 1" HorizontalAlignment = "Left" Width = "140" 
-               Click = "MenuItem_Click" />
-                <MenuItem Header = "Item 2" HorizontalAlignment = "Left" Width = "140" 
-               Click = "MenuItem_Click" />
-                <Separator HorizontalAlignment = "Left" Width = "140" />
-                <MenuItem Header = "Item 3" HorizontalAlignment = "Left" Width = "140" 
-               Click = "MenuItem_Click" />
+                <MenuItem Header = "Play" HorizontalAlignment = "Left" Width = "140" 
+               Click = "btnPlay_Click" />
+                <MenuItem Header = "Pause" HorizontalAlignment = "Left" Width = "140" 
+               Click = "btnPause_Click" />
+                <MenuItem Header = "Stop" HorizontalAlignment = "Left" Width = "140" 
+               Click = "btnStop_Click" />
             </MenuItem>
 
             <MenuItem Header = "View" Cursor="Arrow" HorizontalAlignment="Left" ClipToBounds="True">
@@ -56,20 +52,31 @@
             </MenuItem>
 
         </Menu>
-        <Slider HorizontalAlignment="Left" Margin="207,42,0,0" VerticalAlignment="Top" Width="120"/>
-        
-        <StackPanel Margin="10">
-            <Label Name="lblStatus" HorizontalContentAlignment="Center" Margin="5" Width="246" />
-            <WrapPanel Margin="0,10,0,0" Width="181" HorizontalAlignment="Left">
-                <Button Width="30" Height="30" Click="btnPlay_Click" Background="#FF2F2F2F">
+
+
+        <StackPanel Margin="10,30,10,10">
+            <WrapPanel Margin="0,10,0,0" Width="797" HorizontalAlignment="Left">
+                <Button Width="31" Height="31" Click="btnPlay_Click" Background="#FF2F2F2F" Padding="5,6,5,6">
                     <Grid>
-                        <Image Source="imgs/playIcon.png" Width="18" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image Source="imgs/playButtonIcon.png" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30" Width="30"/>
                     </Grid>
                 </Button>
-                <Button x:Name="btnPause" Click="btnPause_Click" Content="||" HorizontalAlignment="Center"/>
-                <Button x:Name="btnStop" Click="btnStop_Click" Content="Stop"/>
+                <Button x:Name="btnPause" Width="31" Height="31" Click="btnPlay_Click" Background="#FF2F2F2F" MinHeight="25" Padding="4,5,5,6">
+                    <Grid>
+                        <Image Source="imgs/pauseButtonIcon.png" Width="26" Height="26" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </Button>
+
+                <Button x:Name="btnStop" Width="31" Height="31" Click="btnStop_Click" Background="#FF2F2F2F" MinHeight="25" Padding="4,5,5,6">
+                    <Grid>
+                        <Image Source="imgs/stopButtonIcon.png" Width="26" Height="26" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </Button>
+                <Slider x:Name="volSlider" Width="120" Margin="25,0,0,0"/>
+                <Label x:Name="lblStatus" HorizontalContentAlignment="Center" Width="103" Margin="61,0,0,0" />
+                <Slider x:Name="progSlider" Width="358" Margin="17,0,0,0" Value="{Binding currentSliderPosition, Mode=TwoWay}"/>
             </WrapPanel>
         </StackPanel>
     </Grid>
-    
+
 </mah:MetroWindow>
