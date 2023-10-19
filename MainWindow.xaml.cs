@@ -27,31 +27,23 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
         }
+
+        public static string mode { get; set; } = "Dark";
+        public static string modeColor { get; set; } = "Orange";
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             MenuItem item = sender as MenuItem;
-            this.Title = "File: " + item.Header;
-        }
-
-        private void MenuItem_Click1(object sender, RoutedEventArgs e)
-        {
-            MenuItem item = sender as MenuItem;
-            this.Title = "Edit: " + item.Header;
-        }
-
-        private void MenuItem_Click2(object sender, RoutedEventArgs e)
-        {
-            MenuItem item = sender as MenuItem;
-            this.Title = "View: " + item.Header;
+            //this.Title = "File: " + item.Header;
         }
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "MP3 files (*.mp3)|WAV files (*.wav)";
-            if (openFileDialog.ShowDialog() == true)
+            if (openFileDialog.ShowDialog() == true) Console.WriteLine("Open file pressed");
                 //string filename = dlg.FileName;
                 //textBox1.Text = filename;
         }
@@ -64,13 +56,10 @@ namespace WpfApp1
                 UseShellExecute = true
             });
         }
-        private void DarkModeClick(object sender, RoutedEventArgs e)
+        private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            ThemeManager.Current.ChangeTheme(this, "Dark.Orange");
-        }
-        private void LightModeClick(object sender, RoutedEventArgs e)
-        {
-            ThemeManager.Current.ChangeTheme(this, "Light.Orange");
+            SettingsWindow settingsWindow = new SettingsWindow();
+            settingsWindow.Show();
         }
     }
 }

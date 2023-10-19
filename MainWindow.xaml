@@ -5,10 +5,10 @@
                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                  xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 Title="Xeras MP3 player"
-                 Icon="E:\Programming\C#\test\WpfApp1\imgs\x_icon.png"
-                 Width="800"
-                 Height="450"
+                 Title="MPX"
+                 Icon="pack://application:,,,/imgs/x_icon.png"
+                 Width="1000"
+                 Height="500"
                  WindowStartupLocation="CenterScreen"
                  mc:Ignorable="d">
 
@@ -23,38 +23,36 @@
     </mah:MetroWindow.LeftWindowCommands>
 
     <Grid>
-        <Menu HorizontalAlignment = "Center" VerticalAlignment = "Top" Width = "800">
+        <Menu HorizontalAlignment = "Left" VerticalAlignment = "Top" Width = "1000">
 
-            <MenuItem Header = "_File" Cursor="Arrow">
+            <MenuItem Header = "_File" Cursor="Arrow" HorizontalAlignment="Left" ClipToBounds="True">
                 <MenuItem Header = "_Open..." HorizontalAlignment = "Left" Width = "140" Click = "OpenFile_Click"/>
                 <Separator HorizontalAlignment = "Left" Width = "140" />
-                <MenuItem Header = "Exit" HorizontalAlignment = "Left" Width = "140" 
+                <MenuItem Header = "Settings" HorizontalAlignment = "Left" Width = "140" Click = "Settings_Click"/>
+                <MenuItem Header = "Exit" HorizontalAlignment = "Left" Width = "140" Click = "MenuItem_Click"/>
+            </MenuItem>
+
+            <MenuItem Header = "_Playback" Cursor="Arrow" ClipToBounds="True">
+                <MenuItem Header = "Item 1" HorizontalAlignment = "Left" Width = "140" 
+               Click = "MenuItem_Click" />
+                <MenuItem Header = "Item 2" HorizontalAlignment = "Left" Width = "140" 
+               Click = "MenuItem_Click" />
+                <Separator HorizontalAlignment = "Left" Width = "140" />
+                <MenuItem Header = "Item 3" HorizontalAlignment = "Left" Width = "140" 
+               Click = "MenuItem_Click" />
+            </MenuItem>
+
+            <MenuItem Header = "View" Cursor="Arrow" HorizontalAlignment="Left" ClipToBounds="True">
+                <MenuItem Header = "Item 1" HorizontalAlignment = "Left" Width = "140" 
+               Click = "MenuItem_Click" />
+                <MenuItem Header = "Item 2" HorizontalAlignment = "Left" Width = "140" 
+               Click = "MenuItem_Click" />
+                <Separator HorizontalAlignment = "Left" Width = "140" />
+                <MenuItem Header = "Item 3" HorizontalAlignment = "Left" Width = "140" 
                Click = "MenuItem_Click"/>
             </MenuItem>
 
-            <MenuItem Header = "_Edit" Cursor="Arrow">
-                <MenuItem Header = "Item 1" HorizontalAlignment = "Left" Width = "140" 
-               Click = "MenuItem_Click1" />
-                <MenuItem Header = "Item 2" HorizontalAlignment = "Left" Width = "140" 
-               Click = "MenuItem_Click1" />
-                <Separator HorizontalAlignment = "Left" Width = "140" />
-                <MenuItem Header = "Item 3" HorizontalAlignment = "Left" Width = "140" 
-               Click = "MenuItem_Click1" />
-            </MenuItem>
-
-            <MenuItem Header = "View" Cursor="Arrow">
-                <MenuItem Header = "Item 1" HorizontalAlignment = "Left" Width = "140" 
-               Click = "MenuItem_Click2" />
-                <MenuItem Header = "Item 2" HorizontalAlignment = "Left" Width = "140" 
-               Click = "MenuItem_Click2" />
-                <Separator HorizontalAlignment = "Left" Width = "140" />
-                <MenuItem Header = "Item 3" HorizontalAlignment = "Left" Width = "140" 
-               Click = "MenuItem_Click2"/>
-            </MenuItem>
-
         </Menu>
-        <RadioButton Content="Dark mode" Click="DarkModeClick" HorizontalAlignment="Left" Margin="35,86,0,0" VerticalAlignment="Top" IsChecked="True"/>
-        <RadioButton Content="Light mode" Click="LightModeClick" HorizontalAlignment="Left" Margin="35,109,0,0" VerticalAlignment="Top" IsChecked="False"/>
-        <Slider HorizontalAlignment="Left" Margin="323,193,0,0" VerticalAlignment="Top" Width="120"/>
+        <Slider HorizontalAlignment="Left" Margin="207,35,0,0" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </mah:MetroWindow>
