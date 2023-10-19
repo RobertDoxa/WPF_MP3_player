@@ -23,6 +23,9 @@
     </mah:MetroWindow.LeftWindowCommands>
 
     <Grid>
+        <Grid.Resources>
+            <ImageBrush x:Key="PlayButton" ImageSource="imgs/playIcon.png" Stretch="UniformToFill"/>
+        </Grid.Resources>
         <Menu HorizontalAlignment = "Left" VerticalAlignment = "Top" Width = "1000">
 
             <MenuItem Header = "_File" Cursor="Arrow" HorizontalAlignment="Left" ClipToBounds="True">
@@ -53,6 +56,20 @@
             </MenuItem>
 
         </Menu>
-        <Slider HorizontalAlignment="Left" Margin="207,35,0,0" VerticalAlignment="Top" Width="120"/>
+        <Slider HorizontalAlignment="Left" Margin="207,42,0,0" VerticalAlignment="Top" Width="120"/>
+        
+        <StackPanel Margin="10">
+            <Label Name="lblStatus" HorizontalContentAlignment="Center" Margin="5" Width="246" />
+            <WrapPanel Margin="0,10,0,0" Width="181" HorizontalAlignment="Left">
+                <Button Width="30" Height="30" Click="btnPlay_Click" Background="#FF2F2F2F">
+                    <Grid>
+                        <Image Source="imgs/playIcon.png" Width="18" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="btnPause" Click="btnPause_Click" Content="||" HorizontalAlignment="Center"/>
+                <Button x:Name="btnStop" Click="btnStop_Click" Content="Stop"/>
+            </WrapPanel>
+        </StackPanel>
     </Grid>
+    
 </mah:MetroWindow>

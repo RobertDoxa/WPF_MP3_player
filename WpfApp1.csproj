@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="imgs\icon.png" />
+    <None Remove="imgs\playIcon.png" />
     <None Remove="imgs\x_icon.png" />
   </ItemGroup>
 
@@ -17,6 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="imgs\icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="imgs\playIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="imgs\x_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

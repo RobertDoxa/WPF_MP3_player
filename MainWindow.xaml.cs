@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
@@ -29,7 +31,7 @@ namespace WpfApp1
             InitializeComponent();
             DataContext = this;
         }
-
+        private MediaPlayer mediaPlayer = new MediaPlayer();
         public static string mode { get; set; } = "Dark";
         public static string modeColor { get; set; } = "Orange";
 
@@ -42,15 +44,29 @@ namespace WpfApp1
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "MP3 files (*.mp3)|WAV files (*.wav)";
-            if (openFileDialog.ShowDialog() == true) Console.WriteLine("Open file pressed");
-                //string filename = dlg.FileName;
-                //textBox1.Text = filename;
+            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                mediaPlayer.Open(new Uri(openFileDialog.FileName));
+            }
+
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            if (mediaPlayer.Source != null)
+                lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+            else
+                lblStatus.Content = "No file selected...";
         }
 
         private void LaunchGitHubSite(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(new ProcessStartInfo
+            Process.Start(new ProcessStartInfo
             {
                 FileName = "https://github.com/RobertDoxa",
                 UseShellExecute = true
@@ -60,6 +76,21 @@ namespace WpfApp1
         {
             SettingsWindow settingsWindow = new SettingsWindow();
             settingsWindow.Show();
+        }
+
+        private void btnPlay_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Play();
+        }
+
+        private void btnPause_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Pause();
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Stop();
         }
     }
 }
