@@ -21,7 +21,7 @@ using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
 
-namespace WpfApp1
+namespace MPX_player
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -33,14 +33,15 @@ namespace WpfApp1
             InitializeComponent();
             DataContext = this;
 
+            volSlider.MouseWheel += volSlider_Scroll;
+            SettingsWindow.ThemeApply();
+
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(50);
             timer.Tick += timer_Tick;
             timer.Start();
         }
         private MediaPlayer mediaPlayer = new MediaPlayer();
-        public static string mode { get; set; } = "Dark";
-        public static string modeColor { get; set; } = "Orange";
 
         private float _currentVolume = 100;
         private float _currentSliderPosition;
@@ -48,6 +49,7 @@ namespace WpfApp1
         private float _fullDurationMillis;
         private bool isDraggingSlider = false;
         private bool isMediaPlaying = false;
+        private bool isAdjustingVolume = false;
 
         public float currentVolume
         {
@@ -102,6 +104,12 @@ namespace WpfApp1
             }
         }
 
+        private void UpdateVolume(float volume)
+        {
+            mediaPlayer.Volume = volume / 100;
+            volSlider.Value = volume;
+        }
+
         void timer_Tick(object sender, EventArgs e)
         {
             if (mediaPlayer.Source != null && mediaPlayer.NaturalDuration.HasTimeSpan)
@@ -118,8 +126,7 @@ namespace WpfApp1
 
                 lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
 
-                _currentVolume = (float)volSlider.Value / 100;
-                mediaPlayer.Volume = _currentVolume;
+                UpdateVolume((float)volSlider.Value);
             }
             //else lblStatus.Content = "No file selected...";
         }
@@ -160,7 +167,7 @@ namespace WpfApp1
         {
             // Handle the slider's ValueChanged event.
             // Update the current position of the media player based on the slider value.
-            if (mediaPlayer.Source != null && isDraggingSlider)
+            if (mediaPlayer.Source != null && !progSlider.IsMouseCaptured && !isDraggingSlider)
             {
                 TimeSpan newPosition = TimeSpan.FromMilliseconds((progSlider.Value / 100) * _fullDurationMillis);
                 mediaPlayer.Position = newPosition;
@@ -183,6 +190,28 @@ namespace WpfApp1
             // Handle the MouseLeftButtonUp event to indicate that the user stopped dragging the slider.
             isDraggingSlider = false;
         }
+
+        private void progSlider_DragStarted(object sender,  DragStartedEventArgs e)
+        {
+            isDraggingSlider = true;
+        }
+
+        private void progSlider_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            isDraggingSlider = false;
+            TimeSpan newPosition = TimeSpan.FromMilliseconds((progSlider.Value / 100) * _fullDurationMillis);
+            mediaPlayer.Position = newPosition;
+        }
         
+        private void volSlider_Scroll(object sender, MouseWheelEventArgs e) 
+        {
+            isAdjustingVolume = true;
+
+            _currentVolume += (e.Delta > 0) ? (_currentVolume < 100 ? 0.75f : 0) : (_currentVolume > 0 ? -0.75f : 0);
+
+            UpdateVolume(_currentVolume);
+
+            isAdjustingVolume = false;
+        }
     }
 }

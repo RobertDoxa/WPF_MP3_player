@@ -14,48 +14,54 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WpfApp1
+namespace MPX_player
 {
     /// <summary>
     /// Interaction logic for SettingsWindow.xaml
     /// </summary>
     public partial class SettingsWindow : MetroWindow
     {
+        private static string mode { get; set; } = Settings.Default.themeMode;
+        private static string modeColor { get; set; } = Settings.Default.themeColor;
+
         public SettingsWindow()
         {
             InitializeComponent();
             DataContext = this;
             UpdateRadioButtonMode();
             UpdateRadioButtonColor();
+            ThemeApply();
         }
-
+        
         private void UpdateRadioButtonMode()
         {
-            string currentMode = MainWindow.modeColor;
-
             foreach (var radioButton in modeRadioButtons.Children.OfType<RadioButton>())
             {
-                radioButton.IsChecked = (string)radioButton.Content == currentMode;
+                radioButton.IsChecked = (string)radioButton.Content == mode;
             }
         }
         private void UpdateRadioButtonColor()
         {
-            string currentModeColor = MainWindow.modeColor;
-
             foreach (var radioButton in colorRadioButtons.Children.OfType<RadioButton>())
             {
-                radioButton.IsChecked = (string)radioButton.Content == currentModeColor;
+                radioButton.IsChecked = (string)radioButton.Content == modeColor;
             }
         }
 
         private void DarkModeClick(object sender, RoutedEventArgs e)
         {
-            MainWindow.mode = "Dark";
+            mode = "Dark";
+            Settings.Default.themeMode = mode;
+            Settings.Default.themeColor = modeColor;
+            Settings.Default.Save();
             ThemeApply();
         }
         private void LightModeClick(object sender, RoutedEventArgs e)
         {
-            MainWindow.mode = "Light";
+            mode = "Light";
+            Settings.Default.themeMode = mode;
+            Settings.Default.themeColor = modeColor;
+            Settings.Default.Save();
             ThemeApply();
         }
         private void ColorRadioChecked(object sender, RoutedEventArgs e)
@@ -64,7 +70,10 @@ namespace WpfApp1
 
             if (radioButton != null)
             {
-                MainWindow.modeColor = radioButton.Content.ToString();
+                modeColor = radioButton.Content.ToString();
+                Settings.Default.themeMode = mode;
+                Settings.Default.themeColor = modeColor;
+                Settings.Default.Save();
                 ThemeApply();
             }
         }
@@ -73,17 +82,17 @@ namespace WpfApp1
             RadioButton radioButton = sender as RadioButton;
             string radioColor = radioButton.Content.ToString();
             
-            if(MainWindow.modeColor == radioColor)
+            if(modeColor == radioColor)
             {
                 return true;
             }
             return false;
         }
-        private void ThemeApply()
+        public static void ThemeApply()
         {
             foreach (Window window in Application.Current.Windows)
             {
-                string completeMode = MainWindow.mode + "." + MainWindow.modeColor;
+                string completeMode = mode + "." + modeColor;
                 if (window is MetroWindow metroWindow)
                 {
                     ThemeManager.Current.ChangeTheme(metroWindow, completeMode);
